@@ -1,0 +1,83 @@
+<project name="image_compositor" basedir="." default="main">
+
+    <property name="src.dir"     value="src"/>
+    <property name="report.dir"  value="report"/>
+    <property name="build.dir"   value="build"/>
+    <property name="images.dir"  value="images"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+    <property name="lib.dir"     value="lib"/>
+    <property name="main-class"  value="gna.ImageCompositor"/>
+    <property name="offsetx"     value="0"/>
+    <property name="offsety"     value="0"/>
+    <property name="opl"         value="null"/>
+    
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java fork="true" classname="${main-class}">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+            <arg value="${img1}" />
+            <arg value="${img2}" />
+            <arg value="${offsetx}" />
+            <arg value="${offsety}" />
+            <arg value="${opl}" />
+        </java>
+    </target>
+    
+    <target name="test" depends="compile">
+       <junit printsummary="true" failureproperty="junit.failure" fork="true">
+          <classpath>
+             <path refid="classpath"/>
+             <path location="${build.dir}/classes"/>
+	  </classpath>
+	  <test name="gna.StitcherTest"/>
+	  <formatter type="plain" usefile="false" />
+       </junit>
+       <fail if="junit.failure" message="Unit test(s) failed."/>
+    </target>
+    
+    <target name="check-pdf-exist">
+        <pathconvert property="pdf.file.found" setonempty="false" pathsep=" ">
+            <path>
+                <fileset dir="${report.dir}" includes="*.pdf" />
+            </path>
+        </pathconvert>
+    </target>
+   
+    <target name="release" depends="compile, check-pdf-exist">
+      <zip destfile="${build.dir}/firstname_lastname.zip">
+        <zipfileset dir="${src.dir}" includes="**/*.java"/>
+        <zipfileset dir="${report.dir}" includes="*.pdf"/>
+        <zipfileset dir="${images.dir}" includes="*.png,*.PNG"/>
+      </zip>
+      <fail unless="pdf.file.found" message="Report PDF not found. Please place your report in the 'report/' directory."/>
+    </target>
+
+    <target name="main" depends="clean,run"/>
+
+</project>
+
