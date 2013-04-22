@@ -3,6 +3,7 @@ package gna;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 /**
@@ -38,19 +39,23 @@ public class Stitcher {
 	  
 	  while(!queue.peek().getPosition().equals(target)){
 		  State currentState = queue.poll();
+		  boolean addCurrent = false;
 		  if(closed.contains(currentState)){
-			  State[] values = (State[]) closed.toArray();
-			  for(State st: values){
+			  Iterator<State> itr = closed.iterator();
+			  while(itr.hasNext()){
+				  State st = itr.next();
 				  if(st.getPosition().equals(currentState.getPosition())){
 					  if(st.getTotalCost() > currentState.getTotalCost()){
-						  closed.remove(st);
-						  closed.add(currentState);
+						  itr.remove();
+						  addCurrent = true;
 					  }
 				  }
-			  }
+			  }  
 		  }else{
-			  closed.add(currentState);
+			  addCurrent = true;
 		  }
+		  if(addCurrent)
+			  closed.add(currentState);
 		  for(Position pos : currentState.getPosition().getNeighbors(width, height)){
 			  State neighbor = new State(pos, image1[pos.getX()][pos.getY()], image2[pos.getX()][pos.getY()], currentState);
 			  if(!closed.contains(neighbor)){

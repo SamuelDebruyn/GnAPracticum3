@@ -48,6 +48,13 @@ public class State {
 		State other = (State) obj;
 		if (!this.getPosition().equals(other.getPosition()))
 			return false;
+		return true;
+	}
+	
+	public boolean completeEquals(Object obj) {
+		if(!this.equals(obj))
+			return false;
+		State other = (State) obj;
 		if (this.getTotalCost() != other.getTotalCost())
 			return false;
 		return true;
