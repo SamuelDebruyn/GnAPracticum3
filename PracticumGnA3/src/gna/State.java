@@ -38,38 +38,6 @@ public class State {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		State other = (State) obj;
-		if (!this.getPosition().equals(other.getPosition()))
-			return false;
-		return true;
-	}
-	
-	public boolean completeEquals(Object obj) {
-		if(!this.equals(obj))
-			return false;
-		State other = (State) obj;
-		if (this.getTotalCost() != other.getTotalCost())
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-	    int result = 1;
-	    result = prime * result + this.getPosition().hashCode();
-	    // no cost because the HashSet with the closed positions needs to ignore this
-	    return result;
-	}
-
-	@Override
 	public String toString() {
 		return "Position: " + String.valueOf(this.getPosition().getX()) + ", " + String.valueOf(this.getPosition().getY()) + "; Total cost: " + String.valueOf(this.getTotalCost()) + " (current: " + String.valueOf(this.getCurrentCost()) + ")";
 	}

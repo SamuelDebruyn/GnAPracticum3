@@ -33,32 +33,17 @@ public class Stitcher {
 	  Position target = new Position(width - 1, height - 1);
 	  
 	  PriorityQueue<State> queue = new PriorityQueue<State>(11, new StateComparator());
-	  HashSet<State> closed = new HashSet<State>();
+	  HashSet<Position> closed = new HashSet<Position>();
 	  
 	  queue.add(new State(new Position(0, 0), image1[0][0], image2[0][0]));
 	  
 	  while(!queue.peek().getPosition().equals(target)){
 		  State currentState = queue.poll();
-		  boolean addCurrent = false;
-		  if(closed.contains(currentState)){
-			  Iterator<State> itr = closed.iterator();
-			  while(itr.hasNext()){
-				  State st = itr.next();
-				  if(st.getPosition().equals(currentState.getPosition())){
-					  if(st.getTotalCost() > currentState.getTotalCost()){
-						  itr.remove();
-						  addCurrent = true;
-					  }
-				  }
-			  }  
-		  }else{
-			  addCurrent = true;
-		  }
-		  if(addCurrent)
-			  closed.add(currentState);
+		  if(!closed.contains(currentState.getPosition()))
+			  closed.add(currentState.getPosition());
 		  for(Position pos : currentState.getPosition().getNeighbors(width, height)){
 			  State neighbor = new State(pos, image1[pos.getX()][pos.getY()], image2[pos.getX()][pos.getY()], currentState);
-			  if(!closed.contains(neighbor)){
+			  if(!closed.contains(neighbor.getPosition())){
 				  queue.add(neighbor);
 			  }
 		  }
