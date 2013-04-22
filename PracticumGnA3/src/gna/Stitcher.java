@@ -2,6 +2,7 @@ package gna;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
 /**
@@ -31,12 +32,18 @@ public class Stitcher {
 	  Position target = new Position(width - 1, height - 1);
 	  
 	  PriorityQueue<State> queue = new PriorityQueue<State>(11, new StateComparator());
+	  HashSet<State> closed = new HashSet<State>();
+	  
 	  queue.add(new State(new Position(0, 0), image1[0][0], image2[0][0]));
 	  
 	  while(!queue.peek().getPosition().equals(target)){
 		  State currentState = queue.poll();
+		  closed.add(currentState);
 		  for(Position pos : currentState.getPosition().getNeighbors(width, height)){
-			  queue.add(new State(pos, image1[pos.getX()][pos.getY()], image2[pos.getX()][pos.getY()], currentState));
+			  State neighbor = new State(pos, image1[pos.getX()][pos.getY()], image2[pos.getX()][pos.getY()], currentState);
+			  if(!closed.contains(neighbor)){
+				  queue.add(neighbor);
+			  }
 		  }
 	  }
 	  
