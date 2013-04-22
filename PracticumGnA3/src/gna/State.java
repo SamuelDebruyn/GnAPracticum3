@@ -55,7 +55,7 @@ public class State {
 			return false;
 		return true;
 	}
-	
+
 	public boolean completeEquals(State other){
 		if(!this.equals(other))
 			return false;
@@ -67,9 +67,9 @@ public class State {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-	    int result = 1;
-	    result = prime * result + this.getPosition().hashCode();
-	    return result;
+		int result = 1;
+		result = prime * result + this.getPosition().hashCode();
+		return result;
 	}
 
 }
