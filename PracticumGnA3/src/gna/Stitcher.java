@@ -2,8 +2,10 @@ package gna;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
@@ -88,19 +90,77 @@ public class Stitcher {
 	 * the mask contains a seam from the upper left corner to the bottom right corner.
 	 */
 	public void floodfill(int[][] mask) {
-		
-		int width = mask.length;
-		int height = mask[0].length;
 
-		// first find the 2 start nodes
-		
+		int height = mask.length;
+		int width = mask[0].length;
+
+		// first find the second start node
+
+		HashMap<Integer, Integer> seamIndexes = new HashMap<Integer, Integer>();
+
 		for(int i = 0; i < height; i++){
 			for(int j = 0; j < width; j++){
-				
+				if(mask[i][j] == SEAM)
+					seamIndexes.put(i, j);
+			}
+			if(seamIndexes.get(i) != width - 1){
+				seamIndexes.put(-1, i);
+				break;
 			}
 		}
 
-		// TODO
+		int y = seamIndexes.get(-1);
+		int x = seamIndexes.get(y) + 1;
+		Position secondNode = new Position(x, y);
+
+		LinkedList<Position> toFloodWithSecond = new LinkedList<Position>();
+		HashSet<Position> done = new HashSet<Position>();
+		toFloodWithSecond.offer(secondNode);
+		
+		while(!toFloodWithSecond.isEmpty()){
+			
+			Position current = toFloodWithSecond.poll();
+			
+			if(mask[current.getY()][current.getX()] != SEAM){
+				mask[current.getY()][current.getX()] = IMAGE2;
+				
+				for(Position pos: current.getNeighbors(width, height, false)){
+					
+					if(!(done.contains(pos) || toFloodWithSecond.contains(pos)))
+						toFloodWithSecond.offer(pos);
+						
+				}	
+				
+			}
+			
+			done.add(current);
+
+		}
+		
+		LinkedList<Position> toFloodWithFirst = new LinkedList<Position>();
+		Position zero = new Position(0, 0);
+		toFloodWithFirst.addAll(zero.getNeighbors(width, height, false));
+		
+		while(!toFloodWithFirst.isEmpty()){
+			
+			Position current = toFloodWithFirst.poll();
+			
+			if(mask[current.getY()][current.getX()] != SEAM && mask[current.getY()][current.getX()] != IMAGE2){
+				mask[current.getY()][current.getX()] = IMAGE1;
+				
+				for(Position pos: current.getNeighbors(width, height, false)){
+					
+					if(!(done.contains(pos) || toFloodWithFirst.contains(pos)))
+						toFloodWithFirst.offer(pos);
+					
+				}
+				
+			}
+			
+			done.add(current);
+			
+		}
+
 	}
 
 	/**
