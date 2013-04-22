@@ -38,7 +38,17 @@ public class Stitcher {
 	  
 	  while(!queue.peek().getPosition().equals(target)){
 		  State currentState = queue.poll();
-		  closed.add(currentState);
+		  if(closed.contains(currentState)){
+			  State[] values = (State[]) closed.toArray();
+			  for(State st: values){
+				  if(st.getPosition().equals(currentState.getPosition())){
+					  if(st.getTotalCost() > currentState.getTotalCost()){
+						  closed.remove(st);
+						  closed.add(currentState);
+					  }
+				  }
+			  }
+		  }
 		  for(Position pos : currentState.getPosition().getNeighbors(width, height)){
 			  State neighbor = new State(pos, image1[pos.getX()][pos.getY()], image2[pos.getX()][pos.getY()], currentState);
 			  if(!closed.contains(neighbor)){
