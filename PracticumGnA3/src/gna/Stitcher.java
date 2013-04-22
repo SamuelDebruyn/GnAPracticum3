@@ -48,6 +48,8 @@ public class Stitcher {
 					  }
 				  }
 			  }
+		  }else{
+			  closed.add(currentState);
 		  }
 		  for(Position pos : currentState.getPosition().getNeighbors(width, height)){
 			  State neighbor = new State(pos, image1[pos.getX()][pos.getY()], image2[pos.getX()][pos.getY()], currentState);
