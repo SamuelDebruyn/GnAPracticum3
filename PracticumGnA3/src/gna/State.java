@@ -42,4 +42,34 @@ public class State {
 		return "Position: " + this.getPosition().toString() + " Total cost: " + String.valueOf(this.getTotalCost()) + " (current: " + String.valueOf(this.getCurrentCost()) + ")";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		if(!this.getPosition().equals(other.getPosition()))
+			return false;
+		return true;
+	}
+	
+	public boolean completeEquals(State other){
+		if(!this.equals(other))
+			return false;
+		if(this.getTotalCost() != other.getTotalCost())
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+	    int result = 1;
+	    result = prime * result + this.getPosition().hashCode();
+	    return result;
+	}
+
 }
