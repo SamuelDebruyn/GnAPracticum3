@@ -41,6 +41,10 @@ public class Position {
 	  positions.add(new Position(getX() + 1, getY()));
 	  positions.add(new Position(getX(), getY() - 1));
 	  positions.add(new Position(getX(), getY() + 1));
+	  positions.add(new Position(getX() + 1, getY() + 1));
+	  positions.add(new Position(getX() - 1, getY() - 1));
+	  positions.add(new Position(getX() - 1, getY() + 1));
+	  positions.add(new Position(getX() + 1, getY() - 1));
 	  
 	  for(Position pos: positions){
 		  if(pos.getX() >= 0 && pos.getX() < width && pos.getY() >= 0 && pos.getY() < height)

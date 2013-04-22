@@ -58,7 +58,7 @@ public class State {
 		final int prime = 31;
 	    int result = 1;
 	    result = prime * result + this.getPosition().hashCode();
-	    result = prime * result + this.getTotalCost();
+	    // no cost because the HashSet with the closed positions needs to ignore this
 	    return result;
 	}
 
