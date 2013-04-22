@@ -39,7 +39,7 @@ public class State {
 
 	@Override
 	public String toString() {
-		return "Position: " + String.valueOf(this.getPosition().getX()) + ", " + String.valueOf(this.getPosition().getY()) + "; Total cost: " + String.valueOf(this.getTotalCost()) + " (current: " + String.valueOf(this.getCurrentCost()) + ")";
+		return "Position: " + this.getPosition().toString() + " Total cost: " + String.valueOf(this.getTotalCost()) + " (current: " + String.valueOf(this.getCurrentCost()) + ")";
 	}
 
 }

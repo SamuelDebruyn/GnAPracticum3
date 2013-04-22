@@ -56,7 +56,7 @@ public class Position {
 
   @Override
 public String toString() {
-	return String.valueOf(getX()) + ", " + String.valueOf(getY());
+	return "(" + String.valueOf(getX()) + ", " + String.valueOf(getY()) + ")";
 }
 
 @Override
