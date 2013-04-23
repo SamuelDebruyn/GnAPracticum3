@@ -94,7 +94,7 @@ public class Stitcher {
 		int height = mask.length;
 		int width = mask[0].length;
 
-		// first find the second start node
+		// first find the start node for the second image
 
 		HashMap<Integer, Integer> seamIndexes = new HashMap<Integer, Integer>();
 
@@ -112,6 +112,8 @@ public class Stitcher {
 		int y = seamIndexes.get(-1);
 		int x = seamIndexes.get(y) + 1;
 		Position secondNode = new Position(x, y);
+		
+		// now floodfill the second part of the mask
 
 		LinkedList<Position> toFloodWithSecond = new LinkedList<Position>();
 		HashSet<Position> done = new HashSet<Position>();
@@ -137,6 +139,10 @@ public class Stitcher {
 
 		}
 		
+		/*
+		 * Code below only necessary if the values for IMAGE1, IMAGE2 and SEAM are changed.
+		 * This will not be the case (contacted TA). 
+		 * 
 		LinkedList<Position> toFloodWithFirst = new LinkedList<Position>();
 		Position zero = new Position(0, 0);
 		toFloodWithFirst.addAll(zero.getNeighbors(width, height, false));
@@ -159,7 +165,7 @@ public class Stitcher {
 			
 			done.add(current);
 			
-		}
+		}*/
 
 	}
 
