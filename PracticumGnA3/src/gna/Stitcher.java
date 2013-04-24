@@ -35,22 +35,28 @@ public class Stitcher {
 
 		int height = image1.length;
 		int width = image1[0].length;
+		
+		// end node
 		Position target = new Position(width - 1, height - 1);
 
 		PriorityQueue<State> queue = new PriorityQueue<State>(11, new StateComparator());
 		HashSet<Position> closed = new HashSet<Position>();
 
+		// start node
 		queue.add(new State(new Position(0, 0), image1[0][0], image2[0][0]));
 
 		while(!queue.peek().getPosition().equals(target)){
 			State currentState = queue.poll();
 			if(!closed.contains(currentState.getPosition()))
+				// evaluated nodes
 				closed.add(currentState.getPosition());
 			for(Position pos : currentState.getPosition().getNeighbors(width, height, true)){
+				// neighboring node
 				State neighbor = new State(pos, image1[pos.getY()][pos.getX()], image2[pos.getY()][pos.getX()], currentState);
 				if(!closed.contains(neighbor.getPosition())){
 					boolean addN = false;
 					if(queue.contains(neighbor)){
+						// neighbor is already in the queue
 						Iterator<State> itr = queue.iterator();
 						boolean found = false;
 						while(itr.hasNext() && !found){
@@ -58,6 +64,7 @@ public class Stitcher {
 							if(neighbor.equals(check)){
 								found = true;
 								if(neighbor.getTotalCost() < check.getTotalCost()){
+									// only replace the neighbor if the new path has a lower cost
 									itr.remove();
 									addN = true;
 								}

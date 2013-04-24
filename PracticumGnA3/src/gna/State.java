@@ -53,14 +53,7 @@ public class State {
 		State other = (State) obj;
 		if(!this.getPosition().equals(other.getPosition()))
 			return false;
-		return true;
-	}
-
-	public boolean completeEquals(State other){
-		if(!this.equals(other))
-			return false;
-		if(this.getTotalCost() != other.getTotalCost())
-			return false;
+		// needed for queue.contains(), only the position is important
 		return true;
 	}
 
