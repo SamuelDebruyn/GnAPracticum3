@@ -122,8 +122,15 @@ public class Stitcher {
 				break;
 			}
 		}
-
+		
+		if(!seamIndexes.containsKey(-1))
+			return;
+		
 		int y = seamIndexes.get(-1);
+		
+		if(!seamIndexes.containsKey(y))
+			return;
+
 		int x = seamIndexes.get(y) + 1;
 		Position secondNode = new Position(x, y);
 
